@@ -385,6 +385,7 @@ public class BluetoothDevice extends BluetoothGattCallback implements BluetoothA
                 mCommandQueue = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<Runnable>());
                 mSemaphore.release();
                 mBluetoothGatt.close();
+                mBluetoothGatt.close();
                 mBluetoothGatt = null;
 
                 if (delegate.get() != null) {
@@ -414,10 +415,11 @@ public class BluetoothDevice extends BluetoothGattCallback implements BluetoothA
                 continue;
 
             BLEService driver;
+            String driverClassName = this.getClass().getName().substring(0, this.getClass().getName().lastIndexOf(".")) + ".driver." + mServiceNameToDriverClass.get(sName);
             try {
                 // Try to instantiate an instance of the driver's class (as specified in the plist)
-                driver = (BLEService) Class.forName("com.tobyrich.lib.smartlink.driver."
-                        + mServiceNameToDriverClass.get(sName)).newInstance();
+                Log.i(TAG, "Initializing driver " + driverClassName);
+                driver = (BLEService) Class.forName(driverClassName).newInstance();
             } catch (InstantiationException e) {
                 e.printStackTrace();
                 continue; // to next service
@@ -425,7 +427,7 @@ public class BluetoothDevice extends BluetoothGattCallback implements BluetoothA
                 e.printStackTrace();
                 continue;
             } catch (ClassNotFoundException e) {
-                Log.w(TAG, "|---" + sName + " ?? " + mServiceNameToDriverClass.get(sName) + " ?? not found");
+                Log.w(TAG, "|---" + sName + " ?? " + driverClassName + " ?? not found");
                 continue;
             }
 

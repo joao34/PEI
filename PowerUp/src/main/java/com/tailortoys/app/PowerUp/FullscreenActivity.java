@@ -475,7 +475,7 @@ public class FullscreenActivity
     @Override
     public void didStartService(BluetoothDevice device, String serviceName, BLEService service) {
         showSearching(false);
-        if (serviceName.equalsIgnoreCase("smartplane") || serviceName.equalsIgnoreCase("powerup")) { // check for smartplane or powerup service
+        if (serviceName.equalsIgnoreCase("smartplane") || serviceName.equalsIgnoreCase("powerup") || serviceName.equalsIgnoreCase("sml1test")) { // check for smartplane or powerup or sml1test service
 
             mSmartplaneService = (BLESmartplaneService) service;
             mSmartplaneService.delegate = new WeakReference<BLESmartplaneService.Delegate>(this);

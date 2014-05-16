@@ -104,6 +104,22 @@
                     <string>86C3810E-0040-40D9-A117-26B300768CD6</string>
                 </dict>
             </dict>
+            <key>sml1test</key>
+            <dict>
+            	<key>UUID</key>
+            	<string>75b64e51-f181-4ed1-921a-476090d80ba7</string>
+            	<key>Primary</key>
+            	<true/>
+            	<key>DriverClass</key>
+            	<string>BLESmartplaneService</string>
+            	<key>Fields</key>
+            	<dict>
+            		<key>engine</key>
+            		<string>75b64e51-f184-4ed1-921a-476090d80ba7</string>
+            		<key>rudder</key>
+            		<string>75b64e51-f185-4ed1-921a-476090d80ba7</string>
+            	</dict>
+            </dict>
         </dict>
     </dict>
 </plist>

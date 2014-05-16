@@ -1,16 +1,21 @@
-package com.tobyrich.lib.smartlink.driver;
+package com.tailortoys.lib.smartlink.driver;
 
+import android.os.SystemClock;
 import android.util.Log;
 
-import com.tobyrich.lib.smartlink.BLEService;
+import com.tailortoys.lib.smartlink.BLEService;
 
 import java.lang.ref.WeakReference;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 /**
  * Created by pvaibhav on 13/02/2014.
  */
 public class BLESmartplaneService
         extends BLEService {
+
     public interface Delegate {
         void didStartChargingBattery();
 
@@ -19,29 +24,29 @@ public class BLESmartplaneService
 
     public WeakReference<Delegate> delegate;
 
-    private short oldSpeed = 0;
-    private short oldRudder = 0;
+    private short lastEngine = 0;
+    private short lastRudder = 0;
 
-    public void setMotor(short speed) {
-        if (oldSpeed == speed)
+    public void setMotor(short value) {
+        if (value == lastEngine)
             return;
-        if (speed > 254)
-            speed = 254;
-        if (speed < 0)
-            speed = 0;
-        writeUint8Value(speed, "engine");
-        oldSpeed = speed;
+        if (value > 254)
+            value = 254;
+        if (value < 0)
+            value = 0;
+        writeUint8Value(value, "engine");
+        lastEngine = value;
     }
 
     public void setRudder(short value) {
-        if (oldRudder == value)
+        if (value == lastRudder)
             return;
-        if (value < -127)
-            value = -127;
         if (value > 126)
             value = 126;
-        writeInt8Value((byte) value, "rudder");
-        oldRudder = value;
+        if (value < -126)
+            value = -126;
+        writeInt8Value((byte)value, "rudder");
+        lastRudder = value;
     }
 
     public void updateChargingStatus() {
@@ -51,6 +56,8 @@ public class BLESmartplaneService
     @Override
     protected void attached() {
         // Reset to zero
+        setWriteNeedsResponse(false, "engine");
+        setWriteNeedsResponse(false, "rudder");
         writeUint8Value((short) 0, "engine");
         writeInt8Value((byte) 0, "rudder");
     }

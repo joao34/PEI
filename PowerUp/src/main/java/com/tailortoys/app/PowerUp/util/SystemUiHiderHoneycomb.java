@@ -1,4 +1,4 @@
-package com.tobyrich.app.SmartPlane.util;
+package com.tailortoys.app.PowerUp.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

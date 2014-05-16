@@ -1,4 +1,4 @@
-package com.tobyrich.app.SmartPlane;
+package com.tailortoys.app.PowerUp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -19,15 +20,16 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.plist.PropertyListFormatException;
-import com.tobyrich.lib.smartlink.BLEService;
-import com.tobyrich.lib.smartlink.BluetoothDevice;
-import com.tobyrich.lib.smartlink.driver.BLEBatteryService;
-import com.tobyrich.lib.smartlink.driver.BLEDeviceInformationService;
-import com.tobyrich.lib.smartlink.driver.BLESmartplaneService;
+import com.tailortoys.lib.smartlink.BLEService;
+import com.tailortoys.lib.smartlink.BluetoothDevice;
+import com.tailortoys.lib.smartlink.driver.BLEBatteryService;
+import com.tailortoys.lib.smartlink.driver.BLEDeviceInformationService;
+import com.tailortoys.lib.smartlink.driver.BLESmartplaneService;
 
 import org.xml.sax.SAXException;
 
@@ -67,6 +69,7 @@ public class FullscreenActivity
     private static final float MAX_BATTERY_VALUE = 100; // in degrees
     private static final long TIMER_DELAY = 500; // the delay in milliseconds before task is to be executed
     private static final long TIMER_PERIOD = 1000; // the time in milliseconds between successive task executions
+    private static final int DELAY_POST = 5000; // in milliseconds
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -94,7 +97,9 @@ public class FullscreenActivity
     private ImageView atcOffButton;
     private ImageView atcOnButton;
     private ImageView throttleLock;
+    private ImageView revRudder;
 
+    private Switch rudderSwitch;
     private MediaPlayer atcSound;
     private MediaPlayer engineSound;
 
@@ -103,6 +108,7 @@ public class FullscreenActivity
     private TextView batteryStatus;
     private TextView batteryLevelText;
     private TextView hdgVal;
+    private TextView revRudderText;
 
     private GestureDetector gestureDetector;
     private boolean tapped;
@@ -188,6 +194,9 @@ public class FullscreenActivity
         atcOffButton = (ImageView) findViewById(R.id.atcOff);
         atcOnButton = (ImageView) findViewById(R.id.atcOn);
         throttleLock = (ImageView) findViewById(R.id.lockThrottle);
+        rudderSwitch = (Switch) findViewById(R.id.rudderSwitch);
+        revRudder = (ImageView) findViewById(R.id.revRudder);
+        revRudderText = (TextView) findViewById(R.id.revText);
 
         gestureDetector = new GestureDetector(FullscreenActivity.this, new GestureListener());
 
@@ -584,11 +593,33 @@ public class FullscreenActivity
 
                 horizonImageView.setRotation(-rollAngle); // set rotation of horizonimageview
 
+                revRudder.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        revRudder.setVisibility(View.INVISIBLE);
+                        rudderSwitch.setVisibility(View.VISIBLE);
+                        revRudderText.setVisibility(View.VISIBLE);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                rudderSwitch.setVisibility(View.INVISIBLE);
+                                revRudderText.setVisibility(View.INVISIBLE);
+                                revRudder.setVisibility(View.VISIBLE);
+                            }
+                        }, DELAY_POST);
+                        return true;
+                    }
+                });
 
                 try {
 
-                    mSmartplaneService.setRudder(newRudder);
-
+                    mSmartplaneService.setRudder(
+                            (short) (rudderSwitch.isChecked() ?
+                                    -newRudder : newRudder)
+                    );
                 } catch (NullPointerException e) {
                     //checking, because mSmartplaneService might not be available everytime
                 }

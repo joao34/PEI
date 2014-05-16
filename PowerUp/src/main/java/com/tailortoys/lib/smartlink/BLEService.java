@@ -1,4 +1,4 @@
-package com.tobyrich.lib.smartlink;
+package com.tailortoys.lib.smartlink;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -30,16 +30,19 @@ public abstract class BLEService {
     protected abstract void didUpdateValueForCharacteristic(String c);
 
     protected void updateField(String name) {
-        Log.d(TAG, "updateField(" + name + ")");
         try {
-            mParent.get().updateField(mFields.get(name));
+            mParent.get().enqueOperation(BluetoothDevice.BleCommand.READ, mFields.get(name));
         } catch (NullPointerException ex) {
             Log.w(TAG, "No delegate set");
         }
     }
 
-    protected void setNotification(String characteristic, boolean enable) {
-        mGatt.setCharacteristicNotification(mFields.get(characteristic), enable);
+    protected void setNotification(String name, boolean enable) {
+        try {
+            mParent.get().enqueOperation(BluetoothDevice.BleCommand.ENABLE_NOTIFICATION, mFields.get(name));
+        } catch (NullPointerException ex) {
+            Log.w(TAG, "No delegate set");
+        }
     }
 
     protected String getStringValueForCharacteristic(String characteristic) {
@@ -52,20 +55,53 @@ public abstract class BLEService {
         return c.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
     }
 
+    protected Integer getUin16ValueForCharacteristic(String characteristic) {
+        BluetoothGattCharacteristic c = mFields.get(characteristic);
+        return c.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, 0);
+    }
+
+    protected byte[] getBytesForCharacteristic(String characteristic) {
+        BluetoothGattCharacteristic c = mFields.get(characteristic);
+        return c.getValue();
+    }
+
     protected Integer getInt8ValueForCharacteristic(String characteristic) {
         BluetoothGattCharacteristic c = mFields.get(characteristic);
         return c.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
     }
 
+    protected void setWriteNeedsResponse(boolean responsNeeded, String characteristic) {
+        BluetoothGattCharacteristic c = mFields.get(characteristic);
+        c.setWriteType(responsNeeded ? BluetoothGattCharacteristic.WRITE_TYPE_SIGNED : BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+    }
+
     protected void writeUint8Value(short value, String characteristic) {
         BluetoothGattCharacteristic c = mFields.get(characteristic);
         c.setValue(value, BluetoothGattCharacteristic.FORMAT_UINT8, 0);
-        mGatt.writeCharacteristic(c);
+        try {
+            mParent.get().enqueOperation(BluetoothDevice.BleCommand.WRITE, c);
+        } catch (NullPointerException ex) {
+            Log.w(TAG, "No delegate set");
+        }
     }
 
     protected void writeInt8Value(byte value, String characteristic) {
         BluetoothGattCharacteristic c = mFields.get(characteristic);
         c.setValue(value, BluetoothGattCharacteristic.FORMAT_SINT8, 0);
-        mGatt.writeCharacteristic(c);
+        try {
+            mParent.get().enqueOperation(BluetoothDevice.BleCommand.WRITE, c);
+        } catch (NullPointerException ex) {
+            Log.w(TAG, "No delegate set");
+        }
+    }
+
+    protected void writeBytes(byte[] value, String characteristic) {
+        BluetoothGattCharacteristic c = mFields.get(characteristic);
+        c.setValue(value);
+        try {
+            mParent.get().enqueOperation(BluetoothDevice.BleCommand.WRITE, c);
+        } catch (NullPointerException ex) {
+            Log.w(TAG, "No delegate set");
+        }
     }
 }

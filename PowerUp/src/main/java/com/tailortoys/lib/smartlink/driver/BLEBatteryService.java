@@ -1,8 +1,8 @@
-package com.tobyrich.lib.smartlink.driver;
+package com.tailortoys.lib.smartlink.driver;
 
 import android.util.Log;
 
-import com.tobyrich.lib.smartlink.BLEService;
+import com.tailortoys.lib.smartlink.BLEService;
 
 import java.lang.ref.WeakReference;
 

@@ -31,6 +31,7 @@ import com.tailortoys.lib.smartlink.driver.BLEBatteryService;
 import com.tailortoys.lib.smartlink.driver.BLEDeviceInformationService;
 import com.tailortoys.lib.smartlink.driver.BLESmartplaneService;
 
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -104,6 +105,8 @@ public class FullscreenActivity
     private ImageView rulerMiddle;
 
     private Switch rudderSwitch;
+    private Switch flassistSwitch;
+
     private MediaPlayer atcSound;
     private MediaPlayer engineSound;
 
@@ -113,6 +116,7 @@ public class FullscreenActivity
     private TextView batteryLevelText;
     private TextView hdgVal;
     private TextView revRudderText;
+    private TextView flassistText;
 
     private GestureDetector gestureDetector;
     private boolean tapped;
@@ -203,6 +207,8 @@ public class FullscreenActivity
         revRudderText = (TextView) findViewById(R.id.revText);
         rulerMiddle = (ImageView) findViewById(R.id.rulerMiddle);
         compass = (ImageView) findViewById(R.id.compass);
+        flassistSwitch = (Switch) findViewById(R.id.flassistSwitch);
+        flassistText = (TextView) findViewById(R.id.flassistText);
 
         gestureDetector = new GestureDetector(FullscreenActivity.this, new GestureListener());
 
@@ -609,12 +615,12 @@ public class FullscreenActivity
                         revRudder.setVisibility(View.INVISIBLE);
                         rudderSwitch.setVisibility(View.VISIBLE);
                         revRudderText.setVisibility(View.VISIBLE);
+
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
 
                             @Override
                             public void run() {
-
                                 rudderSwitch.setVisibility(View.INVISIBLE);
                                 revRudderText.setVisibility(View.INVISIBLE);
                                 revRudder.setVisibility(View.VISIBLE);

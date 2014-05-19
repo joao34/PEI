@@ -70,6 +70,8 @@ public class FullscreenActivity
     private static final long TIMER_DELAY = 500; // the delay in milliseconds before task is to be executed
     private static final long TIMER_PERIOD = 1000; // the time in milliseconds between successive task executions
     private static final int DELAY_POST = 5000; // in milliseconds
+    private static final double RULER_MOVEMENT_SPEED = 1.4;
+    private static final int RULER_MOVEMENT_HEIGHT = 200;
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -98,6 +100,7 @@ public class FullscreenActivity
     private ImageView atcOnButton;
     private ImageView throttleLock;
     private ImageView revRudder;
+    private ImageView rulerMiddle;
 
     private Switch rudderSwitch;
     private MediaPlayer atcSound;
@@ -197,6 +200,7 @@ public class FullscreenActivity
         rudderSwitch = (Switch) findViewById(R.id.rudderSwitch);
         revRudder = (ImageView) findViewById(R.id.revRudder);
         revRudderText = (TextView) findViewById(R.id.revText);
+        rulerMiddle = (ImageView) findViewById(R.id.rulerMiddle);
 
         gestureDetector = new GestureDetector(FullscreenActivity.this, new GestureListener());
 
@@ -591,6 +595,8 @@ public class FullscreenActivity
 
                 horizonImageView.startAnimation(translateHorizon);
 
+                //ruler movement, a bit faster than horizon movement for 3D effect
+                rulerMiddle.setY((float) (-RULER_MOVEMENT_SPEED * (horizonVerticalMovement + RULER_MOVEMENT_HEIGHT)));
                 horizonImageView.setRotation(-rollAngle); // set rotation of horizonimageview
 
                 revRudder.setOnTouchListener(new View.OnTouchListener() {

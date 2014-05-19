@@ -99,6 +99,7 @@ public class FullscreenActivity
     private ImageView atcOffButton;
     private ImageView atcOnButton;
     private ImageView throttleLock;
+    private ImageView compass;
     private ImageView revRudder;
     private ImageView rulerMiddle;
 
@@ -201,6 +202,7 @@ public class FullscreenActivity
         revRudder = (ImageView) findViewById(R.id.revRudder);
         revRudderText = (TextView) findViewById(R.id.revText);
         rulerMiddle = (ImageView) findViewById(R.id.rulerMiddle);
+        compass = (ImageView) findViewById(R.id.compass);
 
         gestureDetector = new GestureDetector(FullscreenActivity.this, new GestureListener());
 
@@ -584,6 +586,8 @@ public class FullscreenActivity
                 if (azimuthAngle < 0) { //scaling angle from 0 to 360
                     azimuthAngle += 360;
                 }
+
+                compass.setRotation(azimuthAngle);
 
                 compassAngle = (azimuthAngle + ANGLE_PER_DIRECTION) / ANGLE_PER_SEGMENT;
 

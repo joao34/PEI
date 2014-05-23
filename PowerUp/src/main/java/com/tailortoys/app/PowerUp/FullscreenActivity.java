@@ -24,23 +24,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dd.plist.PropertyListFormatException;
-import com.tailortoys.lib.smartlink.BLEService;
-import com.tailortoys.lib.smartlink.BluetoothDevice;
-import com.tailortoys.lib.smartlink.driver.BLEBatteryService;
-import com.tailortoys.lib.smartlink.driver.BLEDeviceInformationService;
-import com.tailortoys.lib.smartlink.driver.BLESmartplaneService;
-
-import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.text.ParseException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.xml.parsers.ParserConfigurationException;
+import lib.smartlink.BLEService;
+import lib.smartlink.BluetoothDevice;
+import lib.smartlink.driver.BLEBatteryService;
+import lib.smartlink.driver.BLEDeviceInformationService;
+import lib.smartlink.driver.BLESmartplaneService;
 
 public class FullscreenActivity
         extends Activity
@@ -313,15 +305,7 @@ public class FullscreenActivity
             device.delegate = new WeakReference<BluetoothDevice.Delegate>(this);
             device.automaticallyReconnect = true;
             device.connect();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (PropertyListFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }

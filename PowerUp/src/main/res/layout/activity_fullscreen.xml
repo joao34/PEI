@@ -33,7 +33,7 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:id="@+id/imageView"
+            android:id="@+id/throttleCursor"
             android:rotation="0"
             android:scaleType="fitCenter"
             android:src="@drawable/controller"
@@ -103,7 +103,7 @@
             android:layout_alignStart="@+id/imgSignalNeedle"
             android:layout_marginLeft="1dp"
             android:textStyle="bold|normal"
-            android:layout_marginBottom="-1.5dp"
+            android:layout_marginBottom="1dp"
             android:singleLine="false" />
 
         <TextView
@@ -141,8 +141,8 @@
             android:textStyle="bold|normal"
             android:layout_alignStart="@+id/signalValue"
             android:layout_above="@+id/imgSignalNeedle"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -194,7 +194,7 @@
             android:layout_alignEnd="@+id/throttleValue"
             android:textSize="13dp"
             android:textStyle="bold|normal"
-            android:layout_marginRight="6dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="-6dp"
             android:text="...        " />
             android:text="...        " />

@@ -1,4 +1,4 @@
-package com.tailortoys.app.PowerUp;
+package com.tailortoys.app.PowerUp.util;
 
 /*
 Copyright 2008-2012 Appcelerator, Inc.

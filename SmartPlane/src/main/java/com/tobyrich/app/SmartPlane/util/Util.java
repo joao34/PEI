@@ -51,7 +51,11 @@ import org.w3c.dom.Text;
  * Class which contains useful methods
  */
 public class Util {
+<<<<<<< HEAD
     private static final String TAG = "Util";
+=======
+    public static final int BT_REQUEST_CODE = 722;
+>>>>>>> a7e49c0... Move BT intent from lib-smartlink to app
     public static final int PHOTO_REQUEST_CODE = 723;
     public static final int SHARE_REQUEST_CODE = 724;
 

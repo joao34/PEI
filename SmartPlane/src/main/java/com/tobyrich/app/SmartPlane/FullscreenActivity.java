@@ -52,6 +52,7 @@ import com.tobyrich.app.SmartPlane.util.InfoBox;
 import com.tobyrich.app.SmartPlane.util.Util;
 
 import lib.smartlink.BluetoothDevice;
+import lib.smartlink.BluetoothDisabledException;
 
 /**
  * @author Samit Vaidya
@@ -196,11 +197,12 @@ public class FullscreenActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case 1:  // XXX: Internally, lib-smartlink uses 1
+            case Util.BT_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    BluetoothDevice device = bluetoothDelegate.getBluetoothDevice();
-                    if (device != null) {
-                        device.connect(); // start scanning and connect
+                    try {
+                        bluetoothDelegate.connect();
+                    } catch (BluetoothDisabledException ex) {
+                        Log.wtf(TAG, "user enabled BT, but we still couldn't connect");
                     }
                 } else {
                     Log.e(TAG, "Bluetooth enabling was canceled by user");
@@ -224,6 +226,7 @@ public class FullscreenActivity extends Activity {
                 } else {
                     Log.e(TAG, "Sharing not successful");
                 }
+                // noinspection UnnecessaryReturnStatement
                 return;
         }  // end switch
     }

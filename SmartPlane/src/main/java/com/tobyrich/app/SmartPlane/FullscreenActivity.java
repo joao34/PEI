@@ -29,6 +29,7 @@ package com.tobyrich.app.SmartPlane;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -103,6 +104,13 @@ public class FullscreenActivity extends Activity {
         infoButton.setOnClickListener(infoBox);
 
         bluetoothDelegate = new BluetoothDelegate(this, infoBox);
+        try {
+            bluetoothDelegate.connect();
+        } catch (BluetoothDisabledException ex) {
+            Intent enableBtIntent =
+                    new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, Util.BT_REQUEST_CODE);
+        }
         sensorHandler = new SensorHandler(this, bluetoothDelegate);
         sensorHandler.registerListener();
         gestureDetector = new GestureDetector(this,

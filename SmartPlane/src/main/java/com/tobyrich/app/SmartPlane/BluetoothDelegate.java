@@ -151,7 +151,7 @@ public class BluetoothDelegate
             if (timer == null) {
                 timer = new Timer();
             }
-            
+
             ChargeTimerTask chargeTimerTask = new ChargeTimerTask(smartplaneService);
             timer.scheduleAtFixedRate(chargeTimerTask, Const.TIMER_DELAY, Const.TIMER_PERIOD);
 
@@ -207,6 +207,9 @@ public class BluetoothDelegate
             timer.cancel();
         }
         timer = null;
+        smartplaneService = null;
+        batteryService = null;
+        deviceInfoService = null;
         // if the smartplane is disconnected, show hardware as "unknown"
         infoBox.setSerialNumber(Const.UNKNOWN);
         Util.showSearching(activity, true);

@@ -51,7 +51,6 @@ import com.tobyrich.app.SmartPlane.util.Const;
 import com.tobyrich.app.SmartPlane.util.InfoBox;
 import com.tobyrich.app.SmartPlane.util.Util;
 
-import lib.smartlink.BluetoothDevice;
 import lib.smartlink.BluetoothDisabledException;
 
 /**

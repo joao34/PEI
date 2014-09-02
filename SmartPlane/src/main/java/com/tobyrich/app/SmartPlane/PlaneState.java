@@ -29,7 +29,7 @@ package com.tobyrich.app.SmartPlane;
 
 import android.app.Application;
 
-import com.tobyrich.app.SmartPlane.util.Const;
+import com.tobyrich.app.SmartPlane.util.Util;
 
 /**
  * @author Radu Hambasan
@@ -40,7 +40,7 @@ import com.tobyrich.app.SmartPlane.util.Const;
 public class PlaneState extends Application{
     private float motorSpeed;
     private double scaler = 0;
-    private boolean flAssistEnabled = false;
+    private int flAssistMode;
     private boolean screenLocked = false;
 
     public void setScaler(double scaler) {
@@ -56,7 +56,7 @@ public class PlaneState extends Application{
      * If flight assist is enabled, it returns the scaled motorSpeed.
      */
     public float getAdjustedMotorSpeed() {
-        if (flAssistEnabled) {
+        if (isFlAssistEnabled()) {
             float adjustedMotorSpeed = (float) (motorSpeed * (1 + scaler));
             if (adjustedMotorSpeed > 1)
                 adjustedMotorSpeed = 1;
@@ -71,15 +71,20 @@ public class PlaneState extends Application{
     }
     public float getMotorSpeed() { return this.motorSpeed; }
 
-    public void enableFlightAssist(boolean flAssistEnabled) {
-        // Cutoff speed for flight assist
-        if (!this.flAssistEnabled && motorSpeed > Const.SCALE_FASSIST_THROTTLE) {
-            motorSpeed = (float) Const.SCALE_FASSIST_THROTTLE;
+    public void setFlAssistMode(int flMode) {
+        if (!(flMode == Util.FA_OFF ||
+                flMode == Util.FA_ADVANCED ||
+                flMode == Util.FA_BEGINNER)) {
+            return;
         }
-        this.flAssistEnabled = flAssistEnabled;
+        this.flAssistMode = flMode;
+    }
+
+    public int getFlAssistMode() {
+        return this.flAssistMode;
     }
 
     public boolean isFlAssistEnabled() {
-        return this.flAssistEnabled;
+        return flAssistMode != Util.FA_OFF;
     }
 }

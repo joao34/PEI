@@ -38,12 +38,11 @@ package com.tobyrich.app.SmartPlane.util;
 /* TODO: document each constant better */
 
 public class Const {
-    public static final int MAX_ROLL_ANGLE = 45;
     /* input to the rudder is between -128 and 127,
      * 0 would center it, 127 turns it fully right,
      * -128 fully left and intermediary value turn it proportionally
      */
-    public static final int MAX_RUDDER_INPUT = 127;
+    public static final int MAX_RUDDER_INPUT = 128;
     public static final int MAX_MOTOR_SPEED = 254;
     public static final double PITCH_ANGLE_MAX = 50;
     public static final double PITCH_ANGLE_MIN = -50;
@@ -68,7 +67,7 @@ public class Const {
     public static final double RULER_MOVEMENT_SPEED = 1.4;
     public static final int RULER_MOVEMENT_HEIGHT = 200;
     /* hide the revRudder view after 3000 milliseconds */
-    public static final long HIDE_SETTINGS_DELAY = 3000;
+    public static final long HIDE_SETTINGS_DELAY = 5000;
     /* messages displayed when the charging status changes */
     public static final String IS_CHARGING = "CHARGING";
     public static final String IS_NOT_CHARGING = "IN USE";

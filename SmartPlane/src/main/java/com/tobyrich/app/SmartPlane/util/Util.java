@@ -51,10 +51,13 @@ import org.w3c.dom.Text;
  * Class which contains useful methods
  */
 public class Util {
-    private static final String TAG = "Util";
     public static final int BT_REQUEST_CODE = 722;
     public static final int PHOTO_REQUEST_CODE = 723;
     public static final int SHARE_REQUEST_CODE = 724;
+
+    public static final int FA_OFF = 0;
+    public static final int FA_ADVANCED = 1;
+    public static final int FA_BEGINNER = 2;
 
     /* If not null, it contains the uri of a photo that can be shared */
     public static Uri photoUri;
@@ -156,6 +159,13 @@ public class Util {
                 .setPositiveButton(shareWithPictureYes, dialogClickListener)
                 .setNeutralButton(shareWithPictureNo, dialogClickListener)
                 .setNegativeButton(shareWithPictureCancel, dialogClickListener).show();
+    }
+
+    public static double clip(double x, double min, double max) {
+        return x < min ? min : (x > max ? max : x);
+    }
+    public static int clip(int x, int min, int max) {
+        return x < min ? min : (x > max ? max : x);
     }
 }
 

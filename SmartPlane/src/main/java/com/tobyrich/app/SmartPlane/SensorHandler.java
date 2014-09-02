@@ -142,32 +142,53 @@ public class SensorHandler implements SensorEventListener {
         float pitchAngle = angles[1];
         float rollAngle = angles[2];
 
-        short newRudder = (short) (rollAngle * -Const.MAX_RUDDER_INPUT / Const.MAX_ROLL_ANGLE);
-        if (planeState.isFlAssistEnabled()) {
+        if (rudderReverse.isChecked()) {
+            rollAngle = (short) (-rollAngle);
+        }
+
+        int faMode = planeState.getFlAssistMode();
+        final double MAX_STEERING_ANGLE = 60;
+        final double linearScale = rollAngle / MAX_STEERING_ANGLE;
+        final double curve = faMode == Util.FA_BEGINNER ? 2.0 : 1.0;
+        final double angleScaler = Math.copySign(Math.pow(Math.abs(linearScale), curve),
+                linearScale);
+
+        int newRudder = (int) angleScaler * Const.MAX_RUDDER_INPUT;
+
+        // scale if needed
+        if (faMode == Util.FA_BEGINNER) {
             // XXX: Note difference from SmartPlane app due to rotated motor
             // limit rudder for left turn
             if (newRudder > 0) {
                 newRudder = (short) (newRudder * Const.SCALE_LEFT_RUDDER);
             }
-            // cutoff if needed
-            if (newRudder > Const.SCALE_LEFT_RUDDER * Const.MAX_RUDDER_INPUT) {
-                newRudder = (short) (Const.SCALE_LEFT_RUDDER * Const.MAX_RUDDER_INPUT);
-            }
+            // don't let the rudder go to dangerous values (60% should be fine)
+            newRudder = (int) Util.clip(newRudder, -0.6 * 127, 0.60 * 126);
+
         }
+
+        // do torque correction (shift center)
+        if (planeState.isFlAssistEnabled()) {
+            final double x = planeState.getMotorSpeed();
+            // coefficients found empirically
+            final double rudderShift =
+                    (x <= 0.65) ? 0 : 0.45 * Math.pow((x - 0.65) / 0.30, 1.7);
+            newRudder = (int) (newRudder - (rudderShift * 127));
+        }
+
         @SuppressWarnings("SpellCheckingInspection")
         BLESmartplaneService smartplaneService = bluetoothDelegate.getSmartplaneService();
         if (smartplaneService != null) {
-            smartplaneService.setRudder(
-                    (short) (rudderReverse.isChecked() ? -newRudder : newRudder)
-            );
+            smartplaneService.setRudder((short) newRudder);
         }
+
         horizonImage.setRotation(-rollAngle);
         // Increase throttle when turning if flight assist is enabled
         if (planeState.isFlAssistEnabled() && !planeState.isScreenLocked()) {
-            double scaler = 1 - Math.cos(rollAngle * Math.PI/2 / Const.MAX_ROLL_ANGLE);
-            if (scaler > 0.3) {
-                scaler = 0.3;
-            }
+            final double MAX_BANK_ANGLE = Math.PI / 6;
+            final double extraThrust = 1 - Math.cos(angleScaler * MAX_BANK_ANGLE);
+
+            double scaler = Util.clip(extraThrust, 0, 0.15);
             planeState.setScaler(scaler);
 
             float adjustedMotorSpeed = planeState.getAdjustedMotorSpeed();
@@ -272,7 +293,7 @@ public class SensorHandler implements SensorEventListener {
             angles[2] = (float) (-Math.atan2(x, Math.sqrt(y * y + z * z)) * Const.TO_DEGREES);
 
             return angles;
-        } else if (mMagnetometerSensor != null){
+        } else if (mMagnetometerSensor != null) {
             switch (event.sensor.getType()) {
                 case Sensor.TYPE_ACCELEROMETER:
                     mGravity = safeValues;

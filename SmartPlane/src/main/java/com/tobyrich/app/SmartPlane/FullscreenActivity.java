@@ -42,7 +42,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -165,7 +165,9 @@ public class FullscreenActivity extends Activity {
         final ImageView settings = (ImageView) findViewById(R.id.settings);
         final Switch rudderReverse = (Switch) findViewById(R.id.rudderSwitch);
         final TextView revRudderText = (TextView) findViewById(R.id.revRudderText);
-        final Switch flAssistSwitch = (Switch) findViewById(R.id.flAssistSwitch);
+        final Button flAssistOffBtn = (Button) findViewById(R.id.flAssistOffBtn);
+        final Button flAssistBegBtn = (Button) findViewById(R.id.flAssistBeginnerBtn);
+        final Button flAssistAdvBtn = (Button) findViewById(R.id.flAssistAdvancedBtn);
         final TextView flAssistText = (TextView) findViewById(R.id.flAssistText);
         settings.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -173,7 +175,9 @@ public class FullscreenActivity extends Activity {
                 settings.setVisibility(View.INVISIBLE);
                 rudderReverse.setVisibility(View.VISIBLE);
                 revRudderText.setVisibility(View.VISIBLE);
-                flAssistSwitch.setVisibility(View.VISIBLE);
+                flAssistOffBtn.setVisibility(View.VISIBLE);
+                flAssistBegBtn.setVisibility(View.VISIBLE);
+                flAssistAdvBtn.setVisibility(View.VISIBLE);
                 flAssistText.setVisibility(View.VISIBLE);
 
                 Handler handler = new Handler();
@@ -182,7 +186,9 @@ public class FullscreenActivity extends Activity {
                     public void run() {
                         rudderReverse.setVisibility(View.INVISIBLE);
                         revRudderText.setVisibility(View.INVISIBLE);
-                        flAssistSwitch.setVisibility(View.INVISIBLE);
+                        flAssistOffBtn.setVisibility(View.INVISIBLE);
+                        flAssistBegBtn.setVisibility(View.INVISIBLE);
+                        flAssistAdvBtn.setVisibility(View.INVISIBLE);
                         flAssistText.setVisibility(View.INVISIBLE);
                         settings.setVisibility(View.VISIBLE);
                     }
@@ -191,14 +197,38 @@ public class FullscreenActivity extends Activity {
             }
         });  // End  settings listener
 
-        flAssistSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        View.OnClickListener flAssistListener = new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                planeState.enableFlightAssist(isChecked);
+            public void onClick(View v) {
+                int darkish_blue = getResources().getColor(R.color.darkish_blue);
+                int gray = getResources().getColor(R.color.gray);
+                switch(v.getId()) {
+                    case R.id.flAssistOffBtn:
+                        flAssistOffBtn.setBackgroundColor(darkish_blue);
+                        flAssistBegBtn.setBackgroundColor(gray);
+                        flAssistAdvBtn.setBackgroundColor(gray);
+                        planeState.setFlAssistMode(Util.FA_OFF);
+                        break;
+                    case R.id.flAssistAdvancedBtn:
+                        flAssistOffBtn.setBackgroundColor(gray);
+                        flAssistBegBtn.setBackgroundColor(gray);
+                        flAssistAdvBtn.setBackgroundColor(darkish_blue);
+                        planeState.setFlAssistMode(Util.FA_ADVANCED);
+                        break;
+                    case R.id.flAssistBeginnerBtn:
+                        flAssistOffBtn.setBackgroundColor(gray);
+                        flAssistBegBtn.setBackgroundColor(darkish_blue);
+                        flAssistAdvBtn.setBackgroundColor(gray);
+                        planeState.setFlAssistMode(Util.FA_BEGINNER);
+                        break;
+                }
             }
-        });  // end flAssist listener
+        };
+        flAssistOffBtn.setOnClickListener(flAssistListener);
+        flAssistAdvBtn.setOnClickListener(flAssistListener);
+        flAssistBegBtn.setOnClickListener(flAssistListener);
         // Default:
-        flAssistSwitch.setChecked(true);
+        flAssistAdvBtn.callOnClick();
     }  // End onCreate()
 
     @Override

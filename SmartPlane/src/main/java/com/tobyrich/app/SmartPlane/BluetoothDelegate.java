@@ -30,7 +30,6 @@ package com.tobyrich.app.SmartPlane;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.tailortoys.app.PowerUp.R;
 import com.tobyrich.app.SmartPlane.util.Const;

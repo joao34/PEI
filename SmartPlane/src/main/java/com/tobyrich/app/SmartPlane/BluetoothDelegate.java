@@ -148,6 +148,10 @@ public class BluetoothDelegate
 
             activity.runOnUiThread(new ChargeStatusTextChanger(activity, Const.IS_NOT_CHARGING));
 
+            if (timer == null) {
+                timer = new Timer();
+            }
+            
             ChargeTimerTask chargeTimerTask = new ChargeTimerTask(smartplaneService);
             timer.scheduleAtFixedRate(chargeTimerTask, Const.TIMER_DELAY, Const.TIMER_PERIOD);
 
@@ -199,7 +203,10 @@ public class BluetoothDelegate
     @Override
     public void didDisconnect(BluetoothDevice device) {
         Log.i(TAG, "did disconnect from" + device.toString());
-        timer.cancel(); //stop timer
+        if (timer != null) {
+            timer.cancel();
+        }
+        timer = null;
         // if the smartplane is disconnected, show hardware as "unknown"
         infoBox.setSerialNumber(Const.UNKNOWN);
         Util.showSearching(activity, true);

@@ -196,6 +196,7 @@ public class FullscreenActivity extends Activity {
                 return true;
             }
         });  // End  settings listener
+        rudderReverse.setChecked(Const.RUDDER_REVERSED_DEFAULT);
 
         View.OnClickListener flAssistListener = new View.OnClickListener() {
             @Override

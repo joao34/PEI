@@ -79,5 +79,6 @@ public class Const {
     public static final double SCALE_FASSIST_THROTTLE = 0.77;
     /* The rudder tends to go more to the left, so we need to account for that */
     public static final double SCALE_LEFT_RUDDER = 0.75;
+    public static final boolean RUDDER_REVERSED_DEFAULT = true;
 }
 

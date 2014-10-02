@@ -153,7 +153,7 @@ public class SensorHandler implements SensorEventListener {
         final double angleScaler = Math.copySign(Math.pow(Math.abs(linearScale), curve),
                 linearScale);
 
-        int newRudder = (int) angleScaler * Const.MAX_RUDDER_INPUT;
+        int newRudder = (int) (angleScaler * Const.MAX_RUDDER_INPUT);
 
         // scale if needed
         if (faMode == Util.FA_BEGINNER) {

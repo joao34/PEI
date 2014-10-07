@@ -44,6 +44,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ import com.tailortoys.app.PowerUp.R;
 import com.tobyrich.app.SmartPlane.util.Const;
 import com.tobyrich.app.SmartPlane.util.InfoBox;
 import com.tobyrich.app.SmartPlane.util.Util;
+
+import org.w3c.dom.Text;
 
 import lib.smartlink.BluetoothDisabledException;
 
@@ -158,16 +161,25 @@ public class FullscreenActivity extends Activity {
             }
         });
 
-        ImageView controlPanel = (ImageView) findViewById(R.id.imgPanel);
+        final ImageView controlPanel = (ImageView) findViewById(R.id.imgPanel);
         controlPanel.setOnTouchListener(new PanelTouchListener(this,
                 bluetoothDelegate));
 
         final ImageView settings = (ImageView) findViewById(R.id.settings);
+
         final Switch rudderReverse = (Switch) findViewById(R.id.rudderSwitch);
         final TextView revRudderText = (TextView) findViewById(R.id.revRudderText);
+
+        final TextView trimLabel = (TextView) findViewById(R.id.trimRudderText);
+        final Button decreaseTrimBtn = (Button) findViewById(R.id.decreaseTrimBtn);
+        final TextView trimValueTxtVw = (TextView) findViewById(R.id.trimValueTxtVw);
+        final Button increaseTrimBtn = (Button) findViewById(R.id.increaseTrimBtn);
+        final LinearLayout trimBtnContainer = (LinearLayout) findViewById(R.id.trimBtnContainer);
+
         final Button flAssistOffBtn = (Button) findViewById(R.id.flAssistOffBtn);
         final Button flAssistBegBtn = (Button) findViewById(R.id.flAssistBeginnerBtn);
         final Button flAssistAdvBtn = (Button) findViewById(R.id.flAssistAdvancedBtn);
+
         final TextView flAssistText = (TextView) findViewById(R.id.flAssistText);
         settings.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -175,6 +187,8 @@ public class FullscreenActivity extends Activity {
                 settings.setVisibility(View.INVISIBLE);
                 rudderReverse.setVisibility(View.VISIBLE);
                 revRudderText.setVisibility(View.VISIBLE);
+                trimLabel.setVisibility(View.VISIBLE);
+                trimBtnContainer.setVisibility(View.VISIBLE);
                 flAssistOffBtn.setVisibility(View.VISIBLE);
                 flAssistBegBtn.setVisibility(View.VISIBLE);
                 flAssistAdvBtn.setVisibility(View.VISIBLE);
@@ -186,6 +200,8 @@ public class FullscreenActivity extends Activity {
                     public void run() {
                         rudderReverse.setVisibility(View.INVISIBLE);
                         revRudderText.setVisibility(View.INVISIBLE);
+                        trimLabel.setVisibility(View.INVISIBLE);
+                        trimBtnContainer.setVisibility(View.INVISIBLE);
                         flAssistOffBtn.setVisibility(View.INVISIBLE);
                         flAssistBegBtn.setVisibility(View.INVISIBLE);
                         flAssistAdvBtn.setVisibility(View.INVISIBLE);
@@ -197,6 +213,30 @@ public class FullscreenActivity extends Activity {
             }
         });  // End  settings listener
         rudderReverse.setChecked(Const.RUDDER_REVERSED_DEFAULT);
+
+        decreaseTrimBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float currTrim = planeState.rudderTrim;
+                currTrim -= Const.TRIM_INCREMENT;
+                if (currTrim < -Const.MAX_TRIM) return;
+
+                planeState.rudderTrim = currTrim;
+                trimValueTxtVw.setText(String.valueOf(currTrim));
+            }
+        });
+
+        increaseTrimBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float currTrim = planeState.rudderTrim;
+                currTrim += Const.TRIM_INCREMENT;
+                if (currTrim > Const.MAX_TRIM) return;
+
+                planeState.rudderTrim = currTrim;
+                trimValueTxtVw.setText(String.valueOf(currTrim));
+            }
+        });
 
         View.OnClickListener flAssistListener = new View.OnClickListener() {
             @Override

@@ -163,7 +163,7 @@ public class SensorHandler implements SensorEventListener {
                 newRudder = (short) (newRudder * Const.SCALE_LEFT_RUDDER);
             }
             // don't let the rudder go to dangerous values (60% should be fine)
-            newRudder = (int) Util.clip(newRudder, -0.6 * 127, 0.60 * 126);
+            newRudder = (int) Util.clip(newRudder, -0.6 * 127, 0.6 * 126);
 
         }
 
@@ -179,7 +179,7 @@ public class SensorHandler implements SensorEventListener {
         @SuppressWarnings("SpellCheckingInspection")
         BLESmartplaneService smartplaneService = bluetoothDelegate.getSmartplaneService();
         if (smartplaneService != null) {
-            smartplaneService.setRudder((short) newRudder);
+            smartplaneService.setRudder((short) (newRudder - planeState.rudderTrim));
         }
 
         horizonImage.setRotation(-rollAngle);

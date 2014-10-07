@@ -43,6 +43,8 @@ public class PlaneState extends Application{
     private int flAssistMode;
     private boolean screenLocked = false;
 
+    public float rudderTrim = 0;
+
     public void setScaler(double scaler) {
         this.scaler = scaler;
     }

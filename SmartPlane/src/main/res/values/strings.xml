@@ -44,5 +44,6 @@
     <string name="label_connecting">Connecting&#8230;</string>
     <string name="label_revRudder">Reverse Rudder</string>
     <string name="label_flightAssist">Flight Assist</string>
+    <string name="label_trimRudder">Trim Angle</string>
 
 </resources>

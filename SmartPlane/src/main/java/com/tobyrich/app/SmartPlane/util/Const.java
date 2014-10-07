@@ -80,5 +80,7 @@ public class Const {
     /* The rudder tends to go more to the left, so we need to account for that */
     public static final double SCALE_LEFT_RUDDER = 0.75;
     public static final boolean RUDDER_REVERSED_DEFAULT = true;
+    public static final float TRIM_INCREMENT = 2f;
+    public static final float MAX_TRIM = 30.0f;
 }
 

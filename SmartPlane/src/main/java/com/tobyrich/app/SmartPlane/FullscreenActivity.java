@@ -53,8 +53,6 @@ import com.tobyrich.app.SmartPlane.util.Const;
 import com.tobyrich.app.SmartPlane.util.InfoBox;
 import com.tobyrich.app.SmartPlane.util.Util;
 
-import org.w3c.dom.Text;
-
 import lib.smartlink.BluetoothDisabledException;
 
 /**
@@ -179,8 +177,23 @@ public class FullscreenActivity extends Activity {
         final Button flAssistOffBtn = (Button) findViewById(R.id.flAssistOffBtn);
         final Button flAssistBegBtn = (Button) findViewById(R.id.flAssistBeginnerBtn);
         final Button flAssistAdvBtn = (Button) findViewById(R.id.flAssistAdvancedBtn);
-
         final TextView flAssistText = (TextView) findViewById(R.id.flAssistText);
+
+        final Runnable settingsHideTask = new Runnable() {
+            @Override
+            public void run() {
+                rudderReverse.setVisibility(View.INVISIBLE);
+                revRudderText.setVisibility(View.INVISIBLE);
+                trimLabel.setVisibility(View.INVISIBLE);
+                trimBtnContainer.setVisibility(View.INVISIBLE);
+                flAssistOffBtn.setVisibility(View.INVISIBLE);
+                flAssistBegBtn.setVisibility(View.INVISIBLE);
+                flAssistAdvBtn.setVisibility(View.INVISIBLE);
+                flAssistText.setVisibility(View.INVISIBLE);
+                settings.setVisibility(View.VISIBLE);
+            }
+        };
+        final Handler settingsHider = new Handler();
         settings.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -194,21 +207,7 @@ public class FullscreenActivity extends Activity {
                 flAssistAdvBtn.setVisibility(View.VISIBLE);
                 flAssistText.setVisibility(View.VISIBLE);
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        rudderReverse.setVisibility(View.INVISIBLE);
-                        revRudderText.setVisibility(View.INVISIBLE);
-                        trimLabel.setVisibility(View.INVISIBLE);
-                        trimBtnContainer.setVisibility(View.INVISIBLE);
-                        flAssistOffBtn.setVisibility(View.INVISIBLE);
-                        flAssistBegBtn.setVisibility(View.INVISIBLE);
-                        flAssistAdvBtn.setVisibility(View.INVISIBLE);
-                        flAssistText.setVisibility(View.INVISIBLE);
-                        settings.setVisibility(View.VISIBLE);
-                    }
-                }, Const.HIDE_SETTINGS_DELAY);
+                settingsHider.postDelayed(settingsHideTask, Const.HIDE_SETTINGS_DELAY);
                 return true;
             }
         });  // End  settings listener
@@ -217,24 +216,32 @@ public class FullscreenActivity extends Activity {
         decreaseTrimBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float currTrim = planeState.rudderTrim;
+                // reset timer
+                settingsHider.removeCallbacks(settingsHideTask);
+                settingsHider.postDelayed(settingsHideTask, Const.HIDE_SETTINGS_DELAY);
+
+                int currTrim = planeState.rudderTrim;
                 currTrim -= Const.TRIM_INCREMENT;
                 if (currTrim < -Const.MAX_TRIM) return;
 
                 planeState.rudderTrim = currTrim;
-                trimValueTxtVw.setText(String.valueOf(currTrim));
+                trimValueTxtVw.setText(currTrim + "°");
             }
         });
 
         increaseTrimBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float currTrim = planeState.rudderTrim;
+                // reset timer
+                settingsHider.removeCallbacks(settingsHideTask);
+                settingsHider.postDelayed(settingsHideTask, Const.HIDE_SETTINGS_DELAY);
+
+                int currTrim = planeState.rudderTrim;
                 currTrim += Const.TRIM_INCREMENT;
                 if (currTrim > Const.MAX_TRIM) return;
 
                 planeState.rudderTrim = currTrim;
-                trimValueTxtVw.setText(String.valueOf(currTrim));
+                trimValueTxtVw.setText(currTrim + "°");
             }
         });
 

@@ -56,7 +56,7 @@
     <string name="checklist_title">Flight checklist</string>
     <string name="checklist_text">
     \ <u>BEFORE TAKEOFF</u>\n <!-- notice the \ at the beginning -->
-    Check Weather Center\n
+        Check Weather Center\n
     Other air traffic\n
     Turn on plane\n
     Connection established\n
@@ -72,6 +72,7 @@
     Plug in cable\n
     Check LED\n
     </string>
+    <string name="title_activity_main_screen">DETI\'s BLIMP</string>
 
 
 </resources>

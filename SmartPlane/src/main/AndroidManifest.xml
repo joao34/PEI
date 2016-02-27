@@ -40,9 +40,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.NoActionBar">
-        </activity>
-
+            android:theme="@android:style/Theme.Holo.NoActionBar" />
+        <activity
+            android:name="com.tobyrich.app.SmartPlane.InfoActivity"
+            android:label="@string/title_activity_info"></activity>
     </application>
 
 </manifest>

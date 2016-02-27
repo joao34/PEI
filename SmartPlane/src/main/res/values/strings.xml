@@ -38,6 +38,7 @@
     <string name="desc_checklist">Checklist</string>
     <string name="desc_shadow_cover">Shadow cover</string>
 
+
     <!-- TextViews labels -->
     <string name="label_fuel">FUEL</string>
     <string name="label_signal">SIGNAL</string>
@@ -76,6 +77,17 @@
 
     <string name="button_solo">Solo</string>
     <string name="button_multiplayer">Multiplayer</string>
+    <string name="title_activity_info">InfoActivity</string>
+
+    <string name="info_text">
+        This App was developed by a team of 6 members from Universidade de Aveiro. \n
+        The goal was to create an APP using the open source APP from TaylorToys to fly a blimp on PowerUp3.0. \n
+
+
+        The source code can be found at https://github.com/joao34/PEI.git .
+        The source of the API used can be found at https://github.com/TailorToys/app-powerup-android.git .
+        Special thanks to our tutor Jose Maria Fernandes.
+        </string>
 
 
 </resources>

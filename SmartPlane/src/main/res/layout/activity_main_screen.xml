@@ -9,4 +9,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.tobyrich.app.SmartPlane.MainScreen">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/title_activity_main_screen"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_solo"
+        android:id="@+id/bttnsolo"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="99dp"
+        android:layout_alignRight="@+id/bttnmultiplayer"
+        android:layout_alignLeft="@+id/bttnmultiplayer"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_multiplayer"
+        android:id="@+id/bttnmultiplayer"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
 </RelativeLayout>

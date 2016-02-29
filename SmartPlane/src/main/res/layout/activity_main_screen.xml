@@ -36,6 +36,7 @@
         android:id="@+id/bttnmultiplayer"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         />
 
     <ImageView
@@ -50,4 +51,22 @@
         android:clickable="true"
 
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/infoface"
+        android:textSize="12sp"
+        android:layout_below="@+id/login_button"
+        android:layout_centerInParent="true"
+        />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bttnmultiplayer"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

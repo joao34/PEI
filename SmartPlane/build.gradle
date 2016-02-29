@@ -18,8 +18,10 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile project(':indicator-library')
     compile files('libs/dd-plist.jar')
     compile files('libs/LibSmartlink.jar')
     compile files('libs/firebase-client-jvm-1.0.16.jar')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

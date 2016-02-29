@@ -1,8 +1,10 @@
-Tailor Toys PowerUp 3.0 app for Android
+DETI's BLIMP Race
 =======================================
 
-This is the official Android app for the TailorToys PowerUp 3.0.
-It's a fork of TobyRich SmartPlane app.
+This App was created for a project on University of Aveiro named DETI's BLIMP Race which goal was to control a BLIMP with an Android App.
+It was inspired in TaylorToys' App, more info below.
+
+
 More information about the PowerUp 3.0 is available on http://poweruptoys.com/
 
 Project maintainer: Prashant Vaibhav <prashant.vaibhav@tobyrich.com> github username `pvaibhav`

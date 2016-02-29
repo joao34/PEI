@@ -1,5 +1,7 @@
 package com.tobyrich.app.SmartPlane;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,5 +21,4 @@ public class InfoActivity extends Activity {
 
 
     }
-
 }

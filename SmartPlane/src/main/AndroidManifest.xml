@@ -43,7 +43,7 @@
             android:theme="@android:style/Theme.Holo.NoActionBar" />
         <activity
             android:name="com.tobyrich.app.SmartPlane.InfoActivity"
-            android:label="@string/title_activity_info"></activity>
+            android:label="@string/title_activity_info" />
     </application>
 
 </manifest>

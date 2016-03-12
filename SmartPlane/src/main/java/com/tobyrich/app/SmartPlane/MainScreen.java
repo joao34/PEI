@@ -52,6 +52,7 @@ public class MainScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // setContentView(R.layout.activity_main_screen); <- if facebook layout is on a diferent activity
 
         // activate Facebook context

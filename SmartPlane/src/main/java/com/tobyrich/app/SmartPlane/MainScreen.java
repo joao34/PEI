@@ -127,6 +127,7 @@ public class MainScreen extends Activity {
     protected void onPause() {
         super.onPause();
 
+
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
